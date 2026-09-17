@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PixelForge — Play. Shop. Level Up.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #0F172A;
+  --bg-panel: #131c33;
+  --bg-panel-2: #17203b;
+  --line: #253256;
+  --purple: #A855F7;
+  --purple-dim: #7c3aed33;
+  --cyan: #38BDF8;
+  --text: #F1F5F9;
+  --text-dim: #94A3B8;
+  --danger: #F87171;
+  --radius: 14px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+h1,h2,h3, .logo, .brand-font{ font-family:'Orbitron', sans-serif; }
+a{color:inherit; text-decoration:none;}
+button{font-family:'Poppins', sans-serif; cursor:pointer; border:none;}
+img{max-width:100%; display:block;}
+::selection{ background: var(--purple); color:#fff; }
+
+/* subtle grid glow backdrop */
+.grid-glow{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(168,85,247,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 80%);
+}
+
+/* ===== HEADER ===== */
+header{
+  position:sticky; top:0; z-index:100;
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav-wrap{
+  max-width:1280px; margin:0 auto; padding:16px 32px;
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+}
+.logo{
+  font-size:22px; font-weight:900; letter-spacing:1px;
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  display:flex; align-items:center; gap:8px;
+  cursor:pointer;
+}
+nav.links{ display:flex; gap:28px; }
+nav.links a{
+  font-size:14px; font-weight:500; color:var(--text-dim);
+  padding:6px 2px; border-bottom:2px solid transparent;
+  transition:.2s;
+}
+nav.links a:hover, nav.links a.active{ color:var(--text); border-color:var(--cyan); }
+.nav-actions{ display:flex; align-items:center; gap:14px; }
+.search-box{
+  display:flex; align-items:center; background:var(--bg-panel);
+  border:1px solid var(--line); border-radius:100px; padding:8px 14px;
+  gap:8px; width:220px;
+}
+.search-box input{
+  background:none; border:none; outline:none; color:var(--text);
+  font-size:13px; width:100%;
+}
+.search-box input::placeholder{ color:var(--text-dim); }
+.icon-btn{
+  background:var(--bg-panel); border:1px solid var(--line);
+  width:38px; height:38px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text); position:relative; transition:.2s;
+}
+.icon-btn:hover{ border-color:var(--cyan); color:var(--cyan); }
+.cart-count{
+  position:absolute; top:-6px; right:-6px;
+  background:var(--purple); color:#fff; font-size:10px; font-weight:700;
+  width:18px; height:18px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.btn-login{
+  background:linear-gradient(90deg, var(--purple), #8b3ff0);
+  color:#fff; font-size:13px; font-weight:600;
+  padding:10px 18px; border-radius:10px;
+  box-shadow: 0 0 0px var(--purple);
+  transition:.2s;
+}
+.btn-login:hover{ box-shadow: 0 0 18px var(--purple-dim); transform:translateY(-1px); }
+.mobile-toggle{ display:none; background:none; color:var(--text); font-size:22px; }
+
+/* ===== HERO ===== */
+.hero{
+  position:relative; max-width:1280px; margin:0 auto; padding:100px 32px 80px;
+  display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center;
+}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--cyan); background:#38bdf81a; border:1px solid #38bdf840;
+  padding:6px 14px; border-radius:100px; margin-bottom:22px;
+}
+.hero h1{
+  font-size:56px; line-height:1.05; font-weight:900; letter-spacing:0.5px;
+  margin-bottom:20px;
+}
+.hero h1 .accent{
+  background:linear-gradient(90deg, var(--purple), var(--cyan));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero p{ color:var(--text-dim); font-size:17px; line-height:1.6; max-width:480px; margin-bottom:32px; }
+.hero-actions{ display:flex; gap:14px; }
+.btn-primary{
+  background:linear-gradient(90deg, var(--purple), #8b3ff0); color:#fff;
+  font-weight:600; font-size:14px; padding:15px 28px; border-radius:12px;
+  transition:.25s; box-shadow:0 8px 24px -8px #a855f770;
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 28px -6px #a855f7a0; }
+.btn-secondary{
+  background:transparent; color:var(--text); font-weight:600; font-size:14px;
+  padding:15px 28px; border-radius:12px; border:1px solid var(--line);
+  transition:.25s;
+}
+.btn-secondary:hover{ border-color:var(--cyan); color:var(--cyan); }
+
+.hero-visual{
+  position:relative; aspect-ratio:1/1; border-radius:24px;
+  background: radial-gradient(circle at 30% 30%, #A855F733, transparent 60%),
+              radial-gradient(circle at 70% 70%, #38BDF833, transparent 60%),
+              var(--bg-panel);
+  border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.hero-visual::before{
+  content:'';
+  position:absolute; inset:0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:24px 24px;
+}
+.controller-glyph{ font-size:140px; filter:drop-shadow(0 0 40px #a855f780); position:relative; z-index:1; animation:float 5s ease-in-out infinite; }
+@keyframes float{ 0%,100%{ transform:translateY(0px); } 50%{ transform:translateY(-14px); } }
+.hp-bar{
+  position:absolute; bottom:24px; left:24px; right:24px;
+  background:#0009; border:1px solid var(--line); border-radius:100px; padding:4px;
+}
+.hp-bar-fill{
+  height:8px; border-radius:100px; width:82%;
+  background:linear-gradient(90deg, var(--cyan), var(--purple));
+}
+.hp-label{ font-size:11px; color:var(--text-dim); margin-top:8px; text-align:center; letter-spacing:1px; }
+
+/* ===== SECTION SHARED ===== */
+section.block{ max-width:1280px; margin:0 auto; padding:70px 32px; position:relative; }
+.section-head{ display:flex; align-items:end; justify-content:space-between; margin-bottom:36px; gap:20px; flex-wrap:wrap; }
+.section-head h2{ font-size:28px; font-weight:700; display:flex; align-items:center; gap:10px; }
+.section-head p{ color:var(--text-dim); font-size:14px; margin-top:6px; }
+.view-all{ font-size:13px; font-weight:600; color:var(--cyan); white-space:nowrap; }
+
+/* category chips */
+.cat-scroll{ display:flex; gap:14px; overflow-x:auto; padding-bottom:8px; }
+.cat-chip{
+  flex:0 0 auto; background:var(--bg-panel); border:1px solid var(--line);
+  border-radius:14px; padding:18px 22px; min-width:150px; text-align:center;
+  transition:.2s; cursor:pointer;
+}
+.cat-chip:hover{ border-color:var(--purple); transform:translateY(-3px); }
+.cat-chip .ic{ font-size:26px; margin-bottom:8px; }
+.cat-chip .name{ font-size:13px; font-weight:600; }
+
+/* product grid */
+.grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; }
+.card{
+  background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius);
+  overflow:hidden; transition:.25s; cursor:pointer; display:flex; flex-direction:column;
+}
+.card:hover{ transform:translateY(-4px); border-color:#a855f760; box-shadow:0 16px 32px -18px #000; }
+.card-media{
+  aspect-ratio:1/0.85; background:linear-gradient(160deg, #1c2745, #10182c);
+  display:flex; align-items:center; justify-content:center; font-size:52px; position:relative;
+}
+.badge{
+  position:absolute; top:10px; left:10px; font-size:10px; font-weight:700;
+  padding:5px 9px; border-radius:100px; letter-spacing:.5px;
+}
+.badge.sale{ background:var(--purple); color:#fff; }
+.badge.new{ background:var(--cyan); color:#04202b; }
+.wish-btn{
+  position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:8px;
+  background:#0008; border:1px solid #ffffff22; color:#fff; display:flex; align-items:center; justify-content:center;
+  font-size:14px; transition:.2s;
+}
+.wish-btn:hover{ background:var(--purple); }
+.card-body{ padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.card-cat{ font-size:11px; color:var(--cyan); text-transform:uppercase; letter-spacing:.5px; font-weight:600; }
+.card-name{ font-size:14.5px; font-weight:600; line-height:1.3; }
+.stars{ font-size:12px; color:#facc15; }
+.stars span{ color:var(--text-dim); font-size:11px; margin-left:4px; }
+.card-price-row{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:6px; }
+.price{ font-family:'Orbitron', sans-serif; font-weight:700; font-size:16px; }
+.price .old{ font-family:'Poppins',sans-serif; font-size:12px; color:var(--text-dim); text-decoration:line-through; font-weight:400; margin-right:6px; }
+.add-btn{
+  width:34px; height:34px; border-radius:9px; background:var(--purple-dim); color:var(--purple);
+  border:1px solid #a855f755; font-size:16px; display:flex; align-items:center; justify-content:center;
+  transition:.2s;
+}
+.add-btn:hover{ background:var(--purple); color:#fff; }
+
+/* best sellers strip */
+.bestseller-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.bs-card{
+  display:flex; gap:16px; align-items:center; background:var(--bg-panel);
+  border:1px solid var(--line); border-radius:var(--radius); padding:16px; cursor:pointer; transition:.2s;
+}
+.bs-card:hover{ border-color:var(--cyan); }
+.bs-rank{ font-family:'Orbitron'; font-size:26px; font-weight:900; color:var(--line); width:38px; }
+.bs-media{ width:60px; height:60px; border-radius:10px; background:#10182c; display:flex; align-items:center; justify-content:center; font-size:26px; flex:0 0 auto; }
+.bs-info .card-name{ font-size:13.5px; }
+.bs-info .price{ font-size:14px; margin-top:4px; }
+
+/* reviews */
+.review-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.review-card{ background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px; }
+.review-top{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.avatar{
+  width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:14px; color:#fff;
+}
+.review-name{ font-weight:600; font-size:13.5px; }
+.review-role{ font-size:11px; color:var(--text-dim); }
+.review-text{ font-size:13.5px; color:var(--text-dim); line-height:1.6; }
+
+/* newsletter */
+.newsletter{
+  background:linear-gradient(120deg, #1c1240, #0f2233);
+  border:1px solid var(--line); border-radius:20px; padding:50px;
+  display:flex; align-items:center; justify-content:space-between; gap:30px; flex-wrap:wrap;
+  position:relative; overflow:hidden;
+}
+.newsletter::after{
+  content:'🕹️'; position:absolute; right:30px; top:50%; transform:translateY(-50%) rotate(-12deg);
+  font-size:120px; opacity:.08;
+}
+.newsletter h3{ font-size:24px; margin-bottom:8px; }
+.newsletter p{ color:var(--text-dim); font-size:14px; }
+.news-form{ display:flex; gap:10px; z-index:1; }
+.news-form input{
+  background:#0006; border:1px solid var(--line); border-radius:10px; padding:13px 16px;
+  color:var(--text); outline:none; font-size:13px; min-width:220px;
+}
+
+/* footer */
+footer{ border-top:1px solid var(--line); margin-top:40px; }
+.footer-wrap{ max-width:1280px; margin:0 auto; padding:60px 32px 30px; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; }
+.footer-wrap h4{ font-size:14px; margin-bottom:16px; }
+.footer-wrap p, .footer-wrap a{ color:var(--text-dim); font-size:13px; line-height:2.1; display:block; }
+.footer-wrap a:hover{ color:var(--cyan); }
+.social-row{ display:flex; gap:10px; margin-top:14px; }
+.social-row a{
+  width:34px; height:34px; border-radius:9px; background:var(--bg-panel); border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center; font-size:14px;
+}
+.footer-bottom{
+  border-top:1px solid var(--line); text-align:center; padding:20px; font-size:12px; color:var(--text-dim);
+}
+
+/* ===== PAGES (shop/cart/checkout/product/about) ===== */
+.page{ display:none; }
+.page.active{ display:block; }
+#page-home.active{ display:block; }
+
+.page-header{ max-width:1280px; margin:0 auto; padding:50px 32px 20px; }
+.page-header h1{ font-size:34px; }
+.breadcrumb{ font-size:12px; color:var(--text-dim); margin-bottom:14px; }
+.breadcrumb a{ color:var(--cyan); }
+
+.shop-layout{ max-width:1280px; margin:0 auto; padding:0 32px 80px; display:grid; grid-template-columns:240px 1fr; gap:32px; }
+.filters{ background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px; align-self:start; position:sticky; top:90px; }
+.filters h4{ font-size:13px; margin-bottom:14px; letter-spacing:.5px; }
+.filter-opt{ display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-dim); padding:7px 0; cursor:pointer; }
+.filter-opt:hover{ color:var(--text); }
+.filter-opt input{ accent-color:var(--purple); }
+.filter-divider{ height:1px; background:var(--line); margin:16px 0; }
+.price-range{ width:100%; accent-color:var(--cyan); }
+.shop-toolbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.result-count{ font-size:13px; color:var(--text-dim); }
+select.sort{ background:var(--bg-panel); border:1px solid var(--line); color:var(--text); padding:9px 12px; border-radius:9px; font-size:13px; }
+
+/* product detail */
+.product-detail{ max-width:1280px; margin:0 auto; padding:20px 32px 80px; display:grid; grid-template-columns:1fr 1fr; gap:50px; }
+.pd-media{ aspect-ratio:1/1; border-radius:20px; background:linear-gradient(160deg, #1c2745, #10182c); display:flex; align-items:center; justify-content:center; font-size:140px; border:1px solid var(--line); }
+.pd-cat{ color:var(--cyan); font-size:12px; text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+.pd-title{ font-size:30px; font-weight:700; margin:10px 0 14px; }
+.pd-price{ font-family:'Orbitron'; font-size:28px; font-weight:700; margin:16px 0; }
+.pd-desc{ color:var(--text-dim); font-size:14px; line-height:1.7; margin-bottom:24px; }
+.qty-row{ display:flex; align-items:center; gap:16px; margin-bottom:24px; }
+.qty-box{ display:flex; align-items:center; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+.qty-box button{ width:38px; height:38px; background:var(--bg-panel); color:var(--text); font-size:16px; }
+.qty-box span{ width:44px; text-align:center; font-weight:600; }
+.pd-features{ list-style:none; margin-top:20px; display:flex; flex-direction:column; gap:8px; }
+.pd-features li{ font-size:13px; color:var(--text-dim); display:flex; gap:8px; }
+.pd-features li::before{ content:'✓'; color:var(--cyan); font-weight:700; }
+
+/* cart */
+.cart-layout{ max-width:1100px; margin:0 auto; padding:20px 32px 80px; display:grid; grid-template-columns:1.6fr 1fr; gap:32px; align-items:start; }
+.cart-item{ display:flex; gap:16px; align-items:center; background:var(--bg-panel); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px; }
+.cart-item-media{ width:70px; height:70px; border-radius:10px; background:#10182c; display:flex; align-items:center; justify-content:center; font-size:30px; flex:0 0 auto; }
+.cart-item-info{ flex:1; }
+.cart-item-name{ font-weight:600; font-size:14px; margin-bottom:4px; }
+.cart-item-cat{ font-size:11.5px; color:var(--text-dim); }
+.remove-x{ color:var(--danger); font-size:12px; font-weight:600; margin-top:8px; display:inline-block; }
+.summary-box{ background:var(--bg-panel); border:1px solid var(--line); border-radius:14px; padding:24px; position:sticky; top:90px; }
+.summary-row{ display:flex; justify-content:space-between; font-size:13.5px; color:var(--text-dim); padding:8px 0; }
+.summary-row.total{ color:var(--text); font-weight:700; font-size:17px; border-top:1px solid var(--line); margin-top:8px; padding-top:16px; }
+.empty-state{ text-align:center; padding:70px 20px; color:var(--text-dim); }
+.empty-state .ic{ font-size:52px; margin-bottom:16px; }
+
+/* checkout / auth forms */
+.form-layout{ max-width:900px; margin:0 auto; padding:20px 32px 80px; display:grid; grid-template-columns:1.3fr 1fr; gap:32px; }
+.form-box{ background:var(--bg-panel); border:1px solid var(--line); border-radius:16px; padding:30px; }
+.form-box h3{ font-size:16px; margin-bottom:18px; }
+.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+.form-grid.full, .field{ grid-column:1/-1; }
+label{ font-size:12px; color:var(--text-dim); margin-bottom:6px; display:block; }
+input, textarea{
+  width:100%; background:#0006; border:1px solid var(--line); border-radius:10px;
+  padding:12px 14px; color:var(--text); font-size:13.5px; outline:none; font-family:'Poppins';
+  transition:.2s;
+}
+input:focus, textarea:focus{ border-color:var(--cyan); }
+.auth-narrow{ max-width:420px; margin:40px auto 100px; }
+.auth-tabs{ display:flex; background:var(--bg-panel); border:1px solid var(--line); border-radius:12px; padding:5px; margin-bottom:24px; }
+.auth-tab{ flex:1; text-align:center; padding:11px; border-radius:9px; font-size:13px; font-weight:600; color:var(--text-dim); }
+.auth-tab.active{ background:linear-gradient(90deg, var(--purple), var(--cyan)); color:#fff; }
+
+/* about */
+.about-hero{ text-align:center; max-width:700px; margin:0 auto 60px; }
+.about-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; max-width:1200px; margin:0 auto 70px; padding:0 32px; }
+.stat-card{ background:var(--bg-panel); border:1px solid var(--line); border-radius:14px; padding:26px; text-align:center; }
+.stat-num{ font-family:'Orbitron'; font-size:28px; font-weight:900; background:linear-gradient(90deg,var(--purple),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.stat-label{ font-size:12px; color:var(--text-dim); margin-top:6px; }
+.about-text{ max-width:800px; margin:0 auto; padding:0 32px 80px; color:var(--text-dim); font-size:14.5px; line-height:1.8; }
+.about-text h3{ color:var(--text); margin:26px 0 10px; font-size:18px; }
+
+/* toast */
+#toast{
+  position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(100px);
+  background:var(--bg-panel); border:1px solid var(--purple); color:#fff; padding:14px 22px;
+  border-radius:12px; font-size:13.5px; font-weight:500; z-index:999; transition:.35s;
+  box-shadow:0 12px 30px -8px #000; display:flex; align-items:center; gap:10px;
+}
+#toast.show{ transform:translateX(-50%) translateY(0); }
+
+@media (max-width: 900px){
+  nav.links, .search-box{ display:none; }
+  .mobile-toggle{ display:flex; align-items:center; justify-content:center; }
+  .hero{ grid-template-columns:1fr; }
+  .hero h1{ font-size:38px; }
+  .grid{ grid-template-columns:repeat(2,1fr); }
+  .bestseller-row, .review-row{ grid-template-columns:1fr; }
+  .shop-layout, .cart-layout, .form-layout, .product-detail{ grid-template-columns:1fr; }
+  .filters{ position:static; }
+  .about-grid{ grid-template-columns:repeat(2,1fr); }
+  .footer-wrap{ grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="grid-glow"></div>
+
+<header>
+  <div class="nav-wrap">
+    <div class="logo" onclick="go('home')">🎮 PIXELFORGE</div>
+    <nav class="links">
+      <a href="#" onclick="go('home');return false;" class="nav-link" data-page="home">Home</a>
+      <a href="#" onclick="go('shop');return false;" class="nav-link" data-page="shop">Shop</a>
+      <a href="#" onclick="go('shop');return false;" class="nav-link">Categories</a>
+      <a href="#" onclick="go('about');return false;" class="nav-link" data-page="about">About Us</a>
+    </nav>
+    <div class="nav-actions">
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="Search gear..." oninput="onSearch(this.value)">
+      </div>
+      <button class="icon-btn" onclick="go('cart')">
+        🛒<span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="btn-login" onclick="go('login')">Login</button>
+      <button class="mobile-toggle" onclick="go('shop')">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HOME PAGE ============ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">⚡ New drops weekly</div>
+      <h1>Everything to <span class="accent">Level Up</span> Your Game.</h1>
+      <p>Shop the latest headsets, keyboards, controllers, and gear built for players who take their setup as seriously as their K/D ratio.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="go('shop')">Shop Now</button>
+        <button class="btn-secondary" onclick="go('shop')">Explore Products</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="controller-glyph">🎮</div>
+      <div class="hp-bar"><div class="hp-bar-fill"></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="section-head">
+      <div><h2>🔥 Featured Products</h2><p>Hand-picked gear trending with the squad this week</p></div>
+      <a class="view-all" href="#" onclick="go('shop');return false;">View all →</a>
+    </div>
+    <div class="grid" id="featuredGrid"></div>
+  </section>
+
+  <section class="block">
+    <div class="section-head">
+      <div><h2>🎮 Shop by Category</h2><p>Find your gear, fast</p></div>
+    </div>
+    <div class="cat-scroll" id="catScroll"></div>
+  </section>
+
+  <section class="block">
+    <div class="section-head">
+      <div><h2>⭐ Best Sellers</h2><p>What the community can't stop buying</p></div>
+    </div>
+    <div class="bestseller-row" id="bestsellerRow"></div>
+  </section>
+
+  <section class="block">
+    <div class="section-head">
+      <div><h2>💬 Customer Reviews</h2><p>Straight from the lobby</p></div>
+    </div>
+    <div class="review-row" id="reviewRow"></div>
+  </section>
+
+  <section class="block">
+    <div class="newsletter">
+      <div>
+        <h3>📩 Join the PixelForge Newsletter</h3>
+        <p>Restock alerts, exclusive drops, and squad-only discounts — no spam, just gear.</p>
+      </div>
+      <div class="news-form">
+        <input type="email" placeholder="you@email.com">
+        <button class="btn-primary" onclick="subscribeNews()">Subscribe</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ SHOP PAGE ============ -->
+<div class="page" id="page-shop">
+  <div class="page-header">
+    <div class="breadcrumb"><a href="#" onclick="go('home');return false;">Home</a> / Shop</div>
+    <h1>Shop All Gear</h1>
+  </div>
+  <div class="shop-layout">
+    <aside class="filters">
+      <h4>CATEGORIES</h4>
+      <div id="filterCats"></div>
+      <div class="filter-divider"></div>
+      <h4>MAX PRICE: <span id="priceVal">$400</span></h4>
+      <input type="range" min="20" max="400" value="400" class="price-range" id="priceRange" oninput="applyFilters()">
+      <div class="filter-divider"></div>
+      <button class="btn-secondary" style="width:100%" onclick="resetFilters()">Reset Filters</button>
+    </aside>
+    <div>
+      <div class="shop-toolbar">
+        <div class="result-count" id="resultCount">Showing all products</div>
+        <select class="sort" id="sortSelect" onchange="applyFilters()">
+          <option value="default">Sort: Featured</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+      <div class="grid" id="shopGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PRODUCT DETAIL PAGE ============ -->
+<div class="page" id="page-product">
+  <div class="page-header">
+    <div class="breadcrumb"><a href="#" onclick="go('home');return false;">Home</a> / <a href="#" onclick="go('shop');return false;">Shop</a> / <span id="pdBreadcrumb"></span></div>
+  </div>
+  <div class="product-detail" id="productDetailBody"></div>
+</div>
+
+<!-- ============ CART PAGE ============ -->
+<div class="page" id="page-cart">
+  <div class="page-header"><h1>Your Cart</h1></div>
+  <div id="cartBody"></div>
+</div>
+
+<!-- ============ CHECKOUT PAGE ============ -->
+<div class="page" id="page-checkout">
+  <div class="page-header"><h1>Checkout</h1></div>
+  <div class="form-layout">
+    <div class="form-box">
+      <h3>📦 Shipping Information</h3>
+      <div class="form-grid">
+        <div><label>First Name</label><input id="coFirstName" placeholder="Juan"></div>
+        <div><label>Last Name</label><input id="coLastName" placeholder="Dela Cruz"></div>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Email Address</label><input id="coEmail" type="email" placeholder="you@email.com"></div>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Street Address</label><input id="coAddress" placeholder="123 Fragfest Ave."></div>
+      </div>
+      <div class="form-grid">
+        <div><label>City</label><input id="coCity" placeholder="Quezon City"></div>
+        <div><label>Postal Code</label><input id="coPostalCode" placeholder="1100"></div>
+      </div>
+      <h3 style="margin-top:24px;">💵 Payment Method</h3>
+      <div class="form-grid">
+        <div class="field" style="background:#22c55e12; border:1px solid #22c55e55; border-radius:12px; padding:16px;">
+          <strong style="display:block; margin-bottom:6px;">Cash on Delivery (COD)</strong>
+          <span style="font-size:13px; color:var(--text-dim);">Pay for your order in cash when it arrives at your delivery address.</span>
+        </div>
+      </div>
+      <button class="btn-primary" style="width:100%; margin-top:10px;" onclick="placeOrder()">Place COD Order</button>
+    </div>
+    <div class="summary-box" id="checkoutSummary"></div>
+  </div>
+</div>
+
+<!-- ============ LOGIN / REGISTER ============ -->
+<div class="page" id="page-login">
+  <div class="auth-narrow">
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tabLogin" onclick="switchAuth('login')">Login</div>
+      <div class="auth-tab" id="tabRegister" onclick="switchAuth('register')">Register</div>
+    </div>
+    <div class="form-box" id="authLogin">
+      <h3>Welcome back, Player</h3>
+      <div class="field" style="margin-bottom:14px;"><label>Email</label><input type="email" placeholder="you@email.com"></div>
+      <div class="field" style="margin-bottom:20px;"><label>Password</label><input type="password" placeholder="••••••••"></div>
+      <button class="btn-primary" style="width:100%;" onclick="fakeLogin()">Log In</button>
+    </div>
+    <div class="form-box" id="authRegister" style="display:none;">
+      <h3>Create your account</h3>
+      <div class="field" style="margin-bottom:14px;"><label>Username</label><input placeholder="ProGamer123"></div>
+      <div class="field" style="margin-bottom:14px;"><label>Email</label><input type="email" placeholder="you@email.com"></div>
+      <div class="field" style="margin-bottom:20px;"><label>Password</label><input type="password" placeholder="••••••••"></div>
+      <button class="btn-primary" style="width:100%;" onclick="fakeLogin()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ABOUT PAGE ============ -->
+<div class="page" id="page-about">
+  <div class="page-header" style="text-align:center;">
+    <div class="about-hero" style="margin-top:20px;">
+      <div class="eyebrow">🎮 About Us</div>
+      <h1>Built by gamers, for gamers.</h1>
+    </div>
+  </div>
+  <div class="about-grid">
+    <div class="stat-card"><div class="stat-num">50K+</div><div class="stat-label">Players Served</div></div>
+    <div class="stat-card"><div class="stat-num">1,200+</div><div class="stat-label">Products</div></div>
+    <div class="stat-card"><div class="stat-num">4.8★</div><div class="stat-label">Avg. Rating</div></div>
+    <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
+  </div>
+  <div class="about-text">
+    <p>PixelForge started as a simple idea: gear shopping for gamers shouldn't feel like shopping at a generic electronics store. We built a place that speaks the language of the community — where every category, badge, and recommendation is built around how players actually play.</p>
+    <h3>Our Mission</h3>
+    <p>To give every gamer, from casual to competitive, easy access to quality gear that helps them play better and show up as themselves — no matter the platform, the game, or the budget.</p>
+    <h3>Why PixelForge</h3>
+    <p>Curated catalog vetted by real players, fast and transparent checkout, and a support team that actually understands ping, DPI, and why RGB matters. Play. Shop. Level Up.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-wrap">
+    <div>
+      <div class="logo" style="margin-bottom:14px;">🎮 PIXELFORGE</div>
+      <p style="max-width:280px;">Everything you need to level up your game — gear, merch, and accessories for every kind of player.</p>
+      <div class="social-row">
+        <a href="#">𝕏</a><a href="#">📸</a><a href="#">📘</a><a href="#">▶️</a>
+      </div>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <a href="#" onclick="go('shop');return false;">All Products</a>
+      <a href="#" onclick="go('shop');return false;">Best Sellers</a>
+      <a href="#" onclick="go('shop');return false;">New Arrivals</a>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <a href="#" onclick="go('about');return false;">About Us</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <a href="#">Shipping Info</a>
+      <a href="#">Returns</a>
+      <a href="#">FAQ</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 PixelForge. Gear Up. Game On. Level Up. 🎮</div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+const CATEGORIES = [
+  {id:'headsets', name:'Headsets', icon:'🎧'},
+  {id:'keyboards', name:'Keyboards', icon:'⌨️'},
+  {id:'mice', name:'Mouse', icon:'🖱️'},
+  {id:'controllers', name:'Controllers', icon:'🎮'},
+  {id:'monitors', name:'Monitors', icon:'🖥️'},
+  {id:'chairs', name:'Chairs', icon:'🪑'},
+  {id:'accessories', name:'Accessories', icon:'🕹️'},
+  {id:'merch', name:'Merch', icon:'👕'},
+];
+
+/* Default catalog — only used to seed shared storage the very first time
+   either the storefront or the admin dashboard loads with nothing stored yet. */
+const DEFAULT_PRODUCTS = [
+  {id:1, name:'Nebula Pro Wireless Headset', cat:'headsets', icon:'🎧', price:89.99, old:119.99, rating:4.8, reviews:312, sold:0, stock:64, badge:'sale', desc:'7.1 surround sound with a noise-cancelling mic, built for long raid nights and clutch call-outs.'},
+  {id:2, name:'VoidStrike Mechanical Keyboard', cat:'keyboards', icon:'⌨️', price:129.99, rating:4.9, reviews:540, sold:0, stock:41, badge:'new', desc:'Hot-swappable switches, per-key RGB, and a CNC aluminum frame that survives every rage-tap.'},
+  {id:3, name:'Phantom X Gaming Mouse', cat:'mice', icon:'🖱️', price:59.99, rating:4.7, reviews:410, sold:0, stock:8, desc:'26,000 DPI optical sensor in a 58g shell — built for flick shots and marathon sessions.'},
+  {id:4, name:'Aetherpad Wireless Controller', cat:'controllers', icon:'🎮', price:69.99, old:84.99, rating:4.6, reviews:298, sold:0, stock:0, badge:'sale', desc:'Hall-effect sticks, remappable paddles, and 40-hour battery life across every platform.'},
+  {id:5, name:'Horizon 27" 240Hz Monitor', cat:'monitors', icon:'🖥️', price:349.99, rating:4.9, reviews:187, sold:0, stock:19, badge:'new', desc:'Fast IPS panel with 1ms response time — see them before they see you.'},
+  {id:6, name:'Throne Elite Gaming Chair', cat:'chairs', icon:'🪑', price:229.99, rating:4.5, reviews:221, sold:0, stock:12, desc:'4D armrests, cold-cure foam, and lumbar support for 10-hour sessions without the ache.'},
+  {id:7, name:'Ghost Mousepad XXL', cat:'accessories', icon:'🕹️', price:24.99, rating:4.6, reviews:503, sold:0, stock:5, desc:'900x400mm stitched-edge surface for consistent low-friction glide, desk to edge.'},
+  {id:8, name:'PixelForge Squad Hoodie', cat:'merch', icon:'👕', price:44.99, rating:4.7, reviews:156, sold:0, stock:73, badge:'new', desc:'Heavyweight cotton hoodie with embroidered PixelForge crest. Comfy enough for all-nighters.'},
+  {id:9, name:'Sonic Wave USB Headset', cat:'headsets', icon:'🎧', price:39.99, rating:4.3, reviews:98, sold:0, stock:88, desc:'Budget-friendly stereo headset with a flip-to-mute boom mic.'},
+  {id:10, name:'Cascade TKL Keyboard', cat:'keyboards', icon:'⌨️', price:79.99, old:99.99, rating:4.5, reviews:212, sold:0, stock:34, badge:'sale', desc:'Compact tenkeyless layout with silent tactile switches for shared spaces.'},
+  {id:11, name:'Raptor Lite Gaming Mouse', cat:'mice', icon:'🖱️', price:29.99, rating:4.2, reviews:167, sold:0, stock:56, desc:'Lightweight ambidextrous shell with 6 programmable buttons.'},
+  {id:12, name:'Pulse Pro Controller', cat:'controllers', icon:'🎮', price:49.99, rating:4.4, reviews:203, sold:0, stock:3, desc:'Textured grips and responsive triggers for PC and console.'},
+  {id:13, name:'ClearView 24" 165Hz Monitor', cat:'monitors', icon:'🖥️', price:189.99, rating:4.6, reviews:145, sold:0, stock:27, desc:'Sharp 1080p panel with adaptive sync for smooth, tear-free frames.'},
+  {id:14, name:'Basecamp Mesh Gaming Chair', cat:'chairs', icon:'🪑', price:149.99, rating:4.3, reviews:98, sold:0, stock:15, desc:'Breathable mesh back keeps you cool through the longest ranked grind.'},
+  {id:15, name:'Loadout Cable Sleeve Kit', cat:'accessories', icon:'🕹️', price:14.99, rating:4.5, reviews:76, sold:0, stock:0, desc:'Custom-color cable sleeves to clean up any desk setup.'},
+  {id:16, name:'PixelForge Snapback Cap', cat:'merch', icon:'👕', price:22.99, rating:4.6, reviews:88, sold:0, stock:60, desc:'Structured 6-panel cap with embroidered logo, one size fits most.'},
+];
+
+/* ============ SHARED STORE (connects to the admin dashboard) ============ */
+const STORE_PRODUCTS_KEY = 'pixelforge_products';
+const STORE_ORDERS_KEY = 'pixelforge_orders';
+let PRODUCTS = [];
+let storeConnected = true;
+
+async function loadSharedProducts(){
+  try{
+    if(window.storage?.get){
+      const res = await window.storage.get(STORE_PRODUCTS_KEY, true);
+      return JSON.parse(res.value);
+    }
+  }catch(e){}
+  const saved = localStorage.getItem(STORE_PRODUCTS_KEY);
+  if(saved) return JSON.parse(saved);
+  const seeded = DEFAULT_PRODUCTS.map(p=>({...p}));
+  localStorage.setItem(STORE_PRODUCTS_KEY, JSON.stringify(seeded));
+  return seeded;
+}
+async function saveSharedProducts(list){
+  try{
+    if(window.storage?.set){ await window.storage.set(STORE_PRODUCTS_KEY, JSON.stringify(list), true); return; }
+  }catch(e){}
+  localStorage.setItem(STORE_PRODUCTS_KEY, JSON.stringify(list));
+}
+async function loadSharedOrders(){
+  try{
+    if(window.storage?.get){
+      const res = await window.storage.get(STORE_ORDERS_KEY, true);
+      return JSON.parse(res.value);
+    }
+  }catch(e){}
+  return JSON.parse(localStorage.getItem(STORE_ORDERS_KEY) || '[]');
+}
+async function saveSharedOrders(list){
+  try{
+    if(window.storage?.set){ await window.storage.set(STORE_ORDERS_KEY, JSON.stringify(list), true); return; }
+  }catch(e){}
+  localStorage.setItem(STORE_ORDERS_KEY, JSON.stringify(list));
+}
+
+let cart = []; // {id, qty} — kept local to this shopper's session, not shared
+let currentFilters = { cats:new Set(), maxPrice:400, search:'' };
+let currentProduct = null;
+
+/* ============ NAVIGATION ============ */
+function go(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.toggle('active', l.dataset.page===page));
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(page==='shop') renderShop();
+  if(page==='cart') renderCart();
+  if(page==='checkout') renderCheckout();
+}
+
+/* ============ RENDER HELPERS ============ */
+function star(r){
+  const full = Math.round(r||0);
+  return '★'.repeat(full) + '☆'.repeat(5-full);
+}
+function fmt(n){ return '$'+n.toFixed(2); }
+
+function productCard(p){
+  return `
+  <div class="card" onclick="openProduct(${p.id})">
+    <div class="card-media">
+      ${p.badge ? `<div class="badge ${p.badge}">${p.badge==='sale'?'SALE':'NEW'}</div>` : ''}
+      <div class="wish-btn" onclick="event.stopPropagation(); toast('❤️ Added to wishlist')">♡</div>
+      ${p.icon}
+    </div>
+    <div class="card-body">
+      <div class="card-cat">${catName(p.cat)}</div>
+      <div class="card-name">${p.name}</div>
+      <div class="stars">${star(p.rating)} <span>(${p.reviews||0})</span></div>
+      <div class="card-price-row">
+        <div class="price">${p.old ? `<span class="old">${fmt(p.old)}</span>`:''}${fmt(p.price)}</div>
+        <button class="add-btn" onclick="event.stopPropagation(); addToCart(${p.id})">+</button>
+      </div>
+    </div>
+  </div>`;
+}
+function catName(id){ return CATEGORIES.find(c=>c.id===id)?.name || id; }
+
+/* ============ HOME RENDER ============ */
+function renderHome(){
+  document.getElementById('featuredGrid').innerHTML = PRODUCTS.slice(0,4).map(productCard).join('');
+  document.getElementById('catScroll').innerHTML = CATEGORIES.map(c=>`
+    <div class="cat-chip" onclick="goToCategory('${c.id}')">
+      <div class="ic">${c.icon}</div>
+      <div class="name">${c.name}</div>
+    </div>`).join('');
+  const best = [...PRODUCTS].sort((a,b)=>b.reviews-a.reviews).slice(0,3);
+  document.getElementById('bestsellerRow').innerHTML = best.map((p,i)=>`
+    <div class="bs-card" onclick="openProduct(${p.id})">
+      <div class="bs-rank">${i+1}</div>
+      <div class="bs-media">${p.icon}</div>
+      <div class="bs-info">
+        <div class="card-name">${p.name}</div>
+        <div class="stars">${star(p.rating)} <span>(${p.reviews||0})</span></div>
+        <div class="price">${fmt(p.price)}</div>
+      </div>
+    </div>`).join('');
+
+  const reviews = [
+    {name:'Marco T.', role:'Verified Buyer', text:'The Nebula headset is unreal for the price. Comms are crisp and it survived a full LAN weekend.', avatar:'MT', color:'#A855F7'},
+    {name:'Jasmine R.', role:'Verified Buyer', text:'VoidStrike keyboard feels like a $250 board. Hot-swap sockets made switching to tactiles painless.', avatar:'JR', color:'#38BDF8'},
+    {name:'Ken A.', role:'Verified Buyer', text:'Checkout was fast, shipping was faster. The chair alone fixed my back after months of grinding.', avatar:'KA', color:'#F472B6'},
+  ];
+  document.getElementById('reviewRow').innerHTML = reviews.map(r=>`
+    <div class="review-card">
+      <div class="review-top">
+        <div class="avatar" style="background:${r.color}">${r.avatar}</div>
+        <div><div class="review-name">${r.name}</div><div class="review-role">${r.role}</div></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <p class="review-text" style="margin-top:8px;">${r.text}</p>
+    </div>`).join('');
+}
+function goToCategory(catId){
+  currentFilters.cats = new Set([catId]);
+  go('shop');
+}
+function subscribeNews(){ toast('📩 Subscribed! Watch your inbox for drops.'); }
+
+/* ============ SHOP RENDER ============ */
+function renderShop(){
+  document.getElementById('filterCats').innerHTML = CATEGORIES.map(c=>`
+    <label class="filter-opt">
+      <input type="checkbox" value="${c.id}" ${currentFilters.cats.has(c.id)?'checked':''} onchange="toggleCat('${c.id}')">
+      ${c.icon} ${c.name}
+    </label>`).join('');
+  document.getElementById('priceRange').value = currentFilters.maxPrice;
+  document.getElementById('priceVal').textContent = '$'+currentFilters.maxPrice;
+  applyFilters();
+}
+function toggleCat(id){
+  if(currentFilters.cats.has(id)) currentFilters.cats.delete(id);
+  else currentFilters.cats.add(id);
+  applyFilters();
+}
+function resetFilters(){
+  currentFilters = { cats:new Set(), maxPrice:400, search:currentFilters.search };
+  renderShop();
+}
+function applyFilters(){
+  currentFilters.maxPrice = parseInt(document.getElementById('priceRange').value);
+  document.getElementById('priceVal').textContent = '$'+currentFilters.maxPrice;
+  let list = PRODUCTS.filter(p=>{
+    const catOk = currentFilters.cats.size===0 || currentFilters.cats.has(p.cat);
+    const priceOk = p.price <= currentFilters.maxPrice;
+    const searchOk = !currentFilters.search || p.name.toLowerCase().includes(currentFilters.search.toLowerCase());
+    return catOk && priceOk && searchOk;
+  });
+  const sort = document.getElementById('sortSelect').value;
+  if(sort==='low') list.sort((a,b)=>a.price-b.price);
+  if(sort==='high') list.sort((a,b)=>b.price-a.price);
+  if(sort==='rating') list.sort((a,b)=>b.rating-a.rating);
+
+  document.getElementById('resultCount').textContent = `Showing ${list.length} product${list.length!==1?'s':''}`;
+  document.getElementById('shopGrid').innerHTML = list.length
+    ? list.map(productCard).join('')
+    : `<div class="empty-state" style="grid-column:1/-1;"><div class="ic">🔍</div><p>No gear matches those filters. Try widening your search.</p></div>`;
+}
+function onSearch(val){
+  currentFilters.search = val;
+  if(!document.getElementById('page-shop').classList.contains('active')) go('shop');
+  else applyFilters();
+}
+
+/* ============ PRODUCT DETAIL ============ */
+let pdQty = 1;
+function openProduct(id){
+  currentProduct = PRODUCTS.find(p=>p.id===id);
+  pdQty = 1;
+  document.getElementById('pdBreadcrumb').textContent = currentProduct.name;
+  renderProductDetail();
+  go('product');
+}
+function renderProductDetail(){
+  const p = currentProduct;
+  document.getElementById('productDetailBody').innerHTML = `
+    <div class="pd-media">${p.icon}</div>
+    <div>
+      <div class="pd-cat">${catName(p.cat)}</div>
+      <h1 class="pd-title">${p.name}</h1>
+      <div class="stars">${star(p.rating)} <span>(${p.reviews||0} reviews)</span></div>
+      <div class="pd-price">${p.old ? `<span class="old" style="font-size:16px;">${fmt(p.old)}</span> `:''}${fmt(p.price)}</div>
+      <p class="pd-desc">${p.desc}</p>
+      <div class="qty-row">
+        <div class="qty-box">
+          <button onclick="changePdQty(-1)">−</button>
+          <span id="pdQtyLabel">${pdQty}</span>
+          <button onclick="changePdQty(1)">+</button>
+        </div>
+        <button class="btn-primary" onclick="addToCart(${p.id}, pdQty)">Add to Cart 🛒</button>
+      </div>
+      <ul class="pd-features">
+        <li>Free shipping on orders over $50</li>
+        <li>30-day hassle-free returns</li>
+        <li>1-year manufacturer warranty</li>
+        <li>Ships within 24 hours</li>
+      </ul>
+    </div>`;
+}
+function changePdQty(d){
+  pdQty = Math.max(1, pdQty+d);
+  document.getElementById('pdQtyLabel').textContent = pdQty;
+}
+
+/* ============ CART LOGIC ============ */
+function addToCart(id, qty=1){
+  const existing = cart.find(c=>c.id===id);
+  if(existing) existing.qty += qty;
+  else cart.push({id, qty});
+  updateCartCount();
+  const p = PRODUCTS.find(pr=>pr.id===id);
+  toast(`🛒 Added "${p.name}" to cart`);
+}
+function updateCartCount(){
+  document.getElementById('cartCount').textContent = cart.reduce((s,c)=>s+c.qty,0);
+}
+function cartTotal(){
+  return cart.reduce((s,c)=>{
+    const p = PRODUCTS.find(pr=>pr.id===c.id);
+    return s + p.price*c.qty;
+  },0);
+}
+function renderCart(){
+  const body = document.getElementById('cartBody');
+  if(cart.length===0){
+    body.innerHTML = `<div class="empty-state"><div class="ic">🛒</div><p>Your cart is empty. Time to gear up.</p><br><button class="btn-primary" onclick="go('shop')">Browse Shop</button></div>`;
+    return;
+  }
+  const itemsHtml = cart.map(c=>{
+    const p = PRODUCTS.find(pr=>pr.id===c.id);
+    return `
+    <div class="cart-item">
+      <div class="cart-item-media">${p.icon}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${p.name}</div>
+        <div class="cart-item-cat">${catName(p.cat)} · ${fmt(p.price)} each</div>
+        <a class="remove-x" onclick="removeFromCart(${p.id})">Remove</a>
+      </div>
+      <div class="qty-box">
+        <button onclick="changeCartQty(${p.id},-1)">−</button>
+        <span>${c.qty}</span>
+        <button onclick="changeCartQty(${p.id},1)">+</button>
+      </div>
+      <div class="price" style="width:80px; text-align:right;">${fmt(p.price*c.qty)}</div>
+    </div>`;
+  }).join('');
+  const subtotal = cartTotal();
+  const shipping = subtotal > 50 || subtotal===0 ? 0 : 6.99;
+  const total = subtotal + shipping;
+  body.innerHTML = `
+    <div class="cart-layout">
+      <div>${itemsHtml}</div>
+      <div class="summary-box">
+        <h3 style="margin-bottom:16px;">Order Summary</h3>
+        <div class="summary-row"><span>Subtotal</span><span>${fmt(subtotal)}</span></div>
+        <div class="summary-row"><span>Shipping</span><span>${shipping===0?'FREE':fmt(shipping)}</span></div>
+        <div class="summary-row total"><span>Total</span><span>${fmt(total)}</span></div>
+        <button class="btn-primary" style="width:100%; margin-top:16px;" onclick="go('checkout')">Proceed to Checkout</button>
+      </div>
+    </div>`;
+}
+function changeCartQty(id, d){
+  const item = cart.find(c=>c.id===id);
+  item.qty += d;
+  if(item.qty<=0) cart = cart.filter(c=>c.id!==id);
+  updateCartCount();
+  renderCart();
+}
+function removeFromCart(id){
+  cart = cart.filter(c=>c.id!==id);
+  updateCartCount();
+  renderCart();
+  toast('🗑️ Item removed from cart');
+}
+function renderCheckout(){
+  const subtotal = cartTotal();
+  const shipping = subtotal > 50 || subtotal===0 ? 0 : 6.99;
+  document.getElementById('checkoutSummary').innerHTML = `
+    <h3 style="margin-bottom:16px;">Order Summary</h3>
+    ${cart.map(c=>{
+      const p = PRODUCTS.find(pr=>pr.id===c.id);
+      return `<div class="summary-row"><span>${p.name} × ${c.qty}</span><span>${fmt(p.price*c.qty)}</span></div>`;
+    }).join('') || '<div class="summary-row"><span>Your cart is empty</span></div>'}
+    <div class="summary-row"><span>Shipping</span><span>${shipping===0?'FREE':fmt(shipping)}</span></div>
+    <div class="summary-row total"><span>Total</span><span>${fmt(subtotal+shipping)}</span></div>`;
+}
+async function placeOrder(){
+  if(cart.length===0){ toast('⚠️ Your cart is empty'); return; }
+  const firstName = document.getElementById('coFirstName').value.trim();
+  const lastName = document.getElementById('coLastName').value.trim();
+  const email = document.getElementById('coEmail').value.trim();
+  const address = document.getElementById('coAddress').value.trim();
+  const city = document.getElementById('coCity').value.trim();
+  const postalCode = document.getElementById('coPostalCode').value.trim();
+  if(!firstName || !lastName || !email || !address || !city || !postalCode){
+    toast('⚠️ Please complete all shipping details');
+    return;
+  }
+  const customerName = (firstName + ' ' + lastName).trim();
+
+  const btn = document.querySelector('.form-box .btn-primary');
+  if(btn){ btn.disabled = true; btn.textContent = 'Placing order…'; }
+
+  // pull the freshest shared catalog + order list right before writing,
+  // so this stays in sync with the admin dashboard and other shoppers
+  const [freshProducts, freshOrders] = await Promise.all([loadSharedProducts(), loadSharedOrders()]);
+
+  const items = cart.map(c=>{
+    const p = freshProducts.find(pr=>pr.id===c.id) || PRODUCTS.find(pr=>pr.id===c.id);
+    return { id:c.id, name:p.name, qty:c.qty, price:p.price };
+  });
+  const subtotal = items.reduce((s,i)=>s+i.price*i.qty,0);
+  const shipping = subtotal > 50 ? 0 : 6.99;
+  const total = subtotal + shipping;
+  const nextId = (freshOrders.reduce((m,o)=>Math.max(m,o.id),1000)) + 1;
+  const today = new Date().toISOString().slice(0,10);
+
+  const order = {
+    id: nextId, customer: customerName, email, date: today,
+    address, city, postalCode, paymentMethod:'COD',
+    items, itemCount: cart.reduce((s,c)=>s+c.qty,0), total, status:'pending'
+  };
+  freshOrders.push(order);
+
+  // decrement stock / bump sold count on the shared catalog
+  items.forEach(i=>{
+    const p = freshProducts.find(pr=>pr.id===i.id);
+    if(p){ p.stock = Math.max(0, (p.stock||0) - i.qty); p.sold = (p.sold||0) + i.qty; }
+  });
+
+  await Promise.all([saveSharedOrders(freshOrders), saveSharedProducts(freshProducts)]);
+  PRODUCTS = freshProducts;
+
+  if(btn){ btn.disabled = false; btn.textContent = 'Place COD Order'; }
+  toast(storeConnected ? `✅ COD Order #${nextId} placed successfully! Pay when it arrives. 🎮` : '✅ Order placed locally (offline)');
+  cart = [];
+  updateCartCount();
+  setTimeout(()=>go('home'), 900);
+}
+
+/* ============ AUTH ============ */
+function switchAuth(mode){
+  document.getElementById('tabLogin').classList.toggle('active', mode==='login');
+  document.getElementById('tabRegister').classList.toggle('active', mode==='register');
+  document.getElementById('authLogin').style.display = mode==='login'?'block':'none';
+  document.getElementById('authRegister').style.display = mode==='register'?'block':'none';
+}
+function fakeLogin(){
+  toast('👋 Welcome back, Player One!');
+  setTimeout(()=>go('home'), 700);
+}
+
+/* ============ TOAST ============ */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+/* ============ INIT ============ */
+async function initStore(){
+  PRODUCTS = await loadSharedProducts();
+  renderHome();
+  updateCartCount();
+}
+initStore();
+
+// keep the storefront in sync if the admin dashboard changes stock/prices elsewhere
+setInterval(async ()=>{
+  PRODUCTS = await loadSharedProducts();
+  const activeId = document.querySelector('.page.active')?.id;
+  if(activeId === 'page-home') renderHome();
+  if(activeId === 'page-shop') applyFilters();
+  if(activeId === 'page-product' && currentProduct){
+    const updated = PRODUCTS.find(p=>p.id===currentProduct.id);
+    if(updated){ currentProduct = updated; renderProductDetail(); }
+  }
+}, 6000);
+</script>
+</body>
+</html>
